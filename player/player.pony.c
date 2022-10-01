@@ -26,6 +26,7 @@ vec2 get_input() {
 }
 
 #define RING_PARTICLE_TIME 0.15
+#define TOOL_ANIM_TIME 0.4
 
 void ring_particles(Player *self) {
 	self->ring_timer += get_dt();
@@ -38,9 +39,60 @@ void ring_particles(Player *self) {
 	}
 }
 
+#define TOOL_CENTER -0.785398163397
+#define TOOL_RANGE (PI)
+
+#define TOOL_LEFT (PI * 0.6)
+#define TOOL_RIGHT (-PI * 0.6)
+
+#define TOOL_DECENTER (PI * 0.3)
+
+/*float tool_rotation(float t) {
+	if(t < 0.3) {
+		return lerp(0.0, TOOL_LEFT, (t / 0.3));
+	}
+	if(t < 0.5) {
+		return lerp(TOOL_LEFT, TOOL_RIGHT, (t - 0.3) / (0.5 - 0.3));
+	}
+	return lerp(TOOL_RIGHT, -2 * PI, (t - 0.5) / 0.5);
+}*/
+
+float tool_rotation(float t) {
+	t = 1 - t;
+	t = t * t;
+	t = 1 - t;
+	return lerp(TOOL_DECENTER, TOOL_DECENTER - 2 * PI, t);
+}
+
+void update_tool_pivot(Node *pivot, Node *radius, float anim) {
+	float t = 1.0 - clamp(anim / TOOL_ANIM_TIME, 0.0, 1.0);
+	float offset = tool_rotation(t);
+
+	if(anim < 0) { offset = TOOL_DECENTER; }
+
+	vec2 pos = get_gpos(pivot);
+	vec2 mouse = mouse_global();
+
+	vec2 dir = sub(mouse, pos);
+	float angle = atan2(dir.y, dir.x) + TOOL_CENTER + offset;
+	set_lrot(pivot, angle);
+
+	float extend = (length(dir) - 30) / 100;
+	extend = clamp(extend, 0, 1);
+	extend = sqrt(extend);
+	extend = lerp(0.0, 10.0, extend);
+	set_lpos(radius, vxy(extend, extend));
+}
+
+void animate_tool(Player *self, PlayerTree *tree) {
+
+}
+
 void tick_Player(Player *self, PlayerTree *tree) {
 	// Retrive state
 	// set_gpos(self, self->unrounded_pos);
+
+	update_tool_pivot(tree->tool_pivot, tree->tool_radius, self->tool_anim);
 
 	vec2 input = get_input();
 	vec2 intended_vel = mul(input, 90);
@@ -56,6 +108,16 @@ void tick_Player(Player *self, PlayerTree *tree) {
 	//tree->sprite->a = 0.5;
 
 	ring_particles(self);
+
+	if(mouse.left.just_pressed) {
+		logf_verbose("mouse presssed");
+		self->tool_anim = TOOL_ANIM_TIME;
+	}
+
+	if(self->tool_anim > 0) {
+		animate_tool(self, tree);
+		self->tool_anim -= get_dt();
+	}
 
 
 	// Save state

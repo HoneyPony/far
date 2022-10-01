@@ -6,6 +6,11 @@
 Player *player;
 
 impl_begin {
+	clear_color[0] = 0;
+	clear_color[1] = 0;
+	clear_color[2] = 0;
+	clear_color[3] = 1.0;
+
 	// Configure screen size
 	ctx.screen.target_width = 360;
 	ctx.screen.target_height = 220;
@@ -15,7 +20,7 @@ impl_begin {
 	player = new(Player);
 	reparent(player, root);
 
-	reparent(new(Cursor), root);
+	//reparent(new(Cursor), root);
 }
 
 impl_tick_start {
