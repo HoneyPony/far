@@ -14,6 +14,8 @@ impl_begin {
 
 	player = new(Player);
 	reparent(player, root);
+
+	reparent(new(Cursor), root);
 }
 
 impl_tick_start {
