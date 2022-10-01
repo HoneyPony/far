@@ -37,4 +37,4 @@
 		parent = tool_radius
 		$->snap_relative = self;
 		set_lpos($, vxy(10, 10));
-		sprite_play($, &res.tools.wrench_tex.loop);
+		sprite_play($, &res.tools.wrench_tex.wrench);

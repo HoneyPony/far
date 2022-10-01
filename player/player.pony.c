@@ -92,7 +92,7 @@ void update_tail(Player *self, PlayerTree *tree) {
 	float extend = (length(self->velocity) - 0) / 90;
 	extend = clamp(extend, 0, 1);
 	extend = sqrt(extend);
-	extend = lerp(0.0, 8.0, extend);
+	extend = lerp(0.0, 3.0, extend);
 	vec2 dir = self->velocity;
 	dir = norm(dir);
 	dir.y *= 0.25;

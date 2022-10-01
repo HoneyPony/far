@@ -20,6 +20,8 @@ impl_begin {
 	player = new(Player);
 	reparent(player, root);
 
+	reparent(new(Hud), root);
+
 	//reparent(new(Cursor), root);
 }
 
