@@ -15,9 +15,19 @@ void construct_Planet(Planet *self) {
 		for(int j = -30; j <= 30; ++j) {
 	//for(int i = 0; i <= 0; ++i) { for(int j = 0; j <= 0; ++j) {
 			Sprite *tile = new_tile(i, j);
-			
+			tile->z_index = -100;
+
 			reparent(tile, self);
 		}
+	}
+
+	for(int i = 0; i < 50; ++i) {
+		Rock *rock = new(Rock);
+		vec2 pos;
+		pos.x = rand_range(-30, 30) * 16;
+		pos.y = rand_range(-30, 30) * 14;
+		set_lpos(rock, pos);
+		reparent(rock, self);
 	}
 }
 

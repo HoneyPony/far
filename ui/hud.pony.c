@@ -3,6 +3,7 @@
 #include "my.ponygame.h"
 
 #include "../text.h"
+#include "../globals.h"
 
 #include "render/render_context.h"
 
@@ -14,7 +15,8 @@
 
 #define SPRITE_HEIGHT 30
 
-void draw_number(Node *on, int number, float x, float y, float color[4]) {
+void draw_number(AnyNode *on_ptr, int number, float x, float y, float color[4]) {
+	Node *on = on_ptr;
 	char value[128] = {0};
 	snprintf(value, 128, "%d", number);
 	char *ptr = value;
@@ -41,7 +43,8 @@ void draw_number(Node *on, int number, float x, float y, float color[4]) {
 	}
 }
 
-void draw_number_rjust(Node *on, int number, float x, float y, float color[4]) {
+void draw_number_rjust(AnyNode *on_ptr, int number, float x, float y, float color[4]) {
+	Node *on = on_ptr;
 	char value[128] = {0};
 	snprintf(value, 128, "%d", number);
 	
@@ -80,4 +83,12 @@ void tick_Hud(Hud *self, HudTree *tree) {
 	draw_number_rjust(self, sdf, -130, 4, color_white);
 	draw_number_rjust(self, 5, -130, -8, color_white);
 	sdf += 10000;
+
+	draw_number(self, ore_count, 60, 5, color_black);
+	draw_number(self, plant_count, 60 + 49, 5, color_black);
+	draw_number(self, wood_count, 60 + 49 * 2, 5, color_black);
+
+	draw_number(self, nebula_count, 60, -8, color_black);
+	draw_number(self, meteor_count, 60 + 49, -8, color_black);
+	draw_number(self, neutron_count, 60 + 49 * 2, -8, color_black);
 }

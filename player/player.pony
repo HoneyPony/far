@@ -36,5 +36,6 @@
 	wrench : Sprite
 		parent = tool_radius
 		$->snap_relative = self;
+		$->z_index = 5;
 		set_lpos($, vxy(10, 10));
 		sprite_play($, &res.tools.wrench_tex.wrench);

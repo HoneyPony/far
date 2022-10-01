@@ -16,6 +16,7 @@ int meteor_count = 0;
 int neutron_count = 0;
 
 Player *player;
+UpgradeMenu *upgrade_menu;
 
  float color_white[4] = {1, 1, 1, 1};
  float color_black[4] = {0, 0, 0, 1};
@@ -31,14 +32,15 @@ impl_begin {
 	ctx.screen.target_width = 360;
 	ctx.screen.target_height = 220;
 
-	reparent(new(Ship), root);
-	
+	reparent(new(Planet), root);
+
 	player = new(Player);
 	reparent(player, root);
 
 	reparent(new(Hud), root);
 
-	reparent(new(UpgradeMenu), root);
+	upgrade_menu = new(UpgradeMenu);
+	reparent(upgrade_menu, root);
 
 	//reparent(new(Cursor), root);
 }

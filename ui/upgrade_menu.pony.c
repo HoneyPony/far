@@ -5,11 +5,13 @@
 
 // Automatically copied header lines. May not be useful.
 
-// void construct_UpgradeMenu(UpgradeMenu *self) { }
+void construct_UpgradeMenu(UpgradeMenu *self) { 
+	self->visible = false;
+}
 
 // void destruct_UpgradeMenu(UpgradeMenu *self) { }
 
-AnimHandle* icons[] = {
+AnimHandle* resource_icons[] = {
 	&res.resources.ore_tex.loop,
 	&res.resources.plant_tex.loop,
 	&res.resources.wood_tex.loop,
@@ -47,7 +49,7 @@ bool draw_button(UpgradeMenu *self, vec2 mouse_pos, int x, int y) {
 void draw_resource_icon(UpgradeMenu *self, int x, int y, int type, int amount, bool enough) {
 	TexRenderer tr = {
 		self, self,
-		&icons[type]->frames[0],
+		&resource_icons[type]->frames[0],
 		vxy(-x - 7, -y + 1),
 		SNAP_EVEN,
 		SNAP_EVEN,
@@ -63,12 +65,7 @@ typedef struct {
 	int amount;
 } UpgradeRequirement;
 
-#define ORE 0
-#define PLANT 1
-#define WOOD 2
-#define NEBULA 3
-#define METEOR 4
-#define NEUTRON 5
+
 
 void reset_upreq(UpgradeRequirement out[3]) {
 	out[0].kind = -1;
@@ -92,10 +89,29 @@ int res_count(int kind) {
 	}
 }
 
+void res_add(int kind, int amount) {
+	switch(kind) {
+		case ORE:  ore_count += amount; break;
+		case PLANT:  plant_count += amount; break;
+		case WOOD:  wood_count += amount; break;
+		case NEBULA:  nebula_count += amount; break;
+		case METEOR:  meteor_count += amount; break;
+		case NEUTRON:  neutron_count += amount; break;
+		default: return;
+	}
+}
+
 void get_upreq_engine(int level, UpgradeRequirement out[3]) {
-	out[0] = req(ORE, 100);
-	out[1] = req(WOOD, 100);
-	out[2] = req(NEUTRON, 100);
+	if(level == 1) {
+		out[0] = req(ORE, 10);
+		out[1] = req(WOOD, 10);
+		out[2] = req(NEUTRON, 10);
+	}
+	else {
+		out[0] = req(ORE, 0);
+		out[1] = req(WOOD, 0);
+		out[2] = req(NEUTRON, 0);
+	}
 }
 
 bool draw_upgrade_reqs(UpgradeMenu *self, int y, UpgradeRequirement arr[3]) {
@@ -116,6 +132,13 @@ bool draw_upgrade_reqs(UpgradeMenu *self, int y, UpgradeRequirement arr[3]) {
 }
 
 void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
+	if(keys.Escape.just_pressed) {
+		self->visible = false;
+	}
+
+	tree->sprite->visible = self->visible;
+	if(!self->visible) return;
+
 	draw_number(self, engine_level, -76, 42, color_black);
 	draw_number(self, battery_level, -76, 42 - 31, color_black);
 	draw_number(self, solar_level, -76, 42 - 2 * 31, color_black);

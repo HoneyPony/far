@@ -8,3 +8,7 @@
 		parent = self
 		sprite_play($, &res.spaceship.ship_tex.loop)
 		$->z_index = -80;
+
+	upgrade : UpgradePrompt
+		parent = self
+		set_lpos($, vxy(-208, 20));

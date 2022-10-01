@@ -1,5 +1,6 @@
 @type UpgradeMenu : Node
 
+@construct
 @tick
 
 @tree

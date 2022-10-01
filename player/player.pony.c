@@ -1,5 +1,7 @@
 #include "my.ponygame.h"
 
+#include "../globals.h"
+
 // Automatically copied header lines. May not be useful.
 
 void construct_Player(Player *self) {
@@ -107,6 +109,8 @@ void update_tail(Player *self, PlayerTree *tree) {
 }
 
 void tick_Player(Player *self, PlayerTree *tree) {
+
+	if(upgrade_menu->visible) return;
 	// Retrive state
 	// set_gpos(self, self->unrounded_pos);
 
