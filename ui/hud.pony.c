@@ -2,6 +2,8 @@
 
 #include "my.ponygame.h"
 
+#include "../text.h"
+
 #include "render/render_context.h"
 
 // Automatically copied header lines. May not be useful.
@@ -10,9 +12,9 @@
 
 // void destruct_Hud(Hud *self) { }
 
-#define SPRITE_HEIGHT 28
+#define SPRITE_HEIGHT 30
 
-void draw_number(Node *on, int number, float x, float y) {
+void draw_number(Node *on, int number, float x, float y, float color[4]) {
 	char value[128] = {0};
 	snprintf(value, 128, "%d", number);
 	char *ptr = value;
@@ -27,7 +29,7 @@ void draw_number(Node *on, int number, float x, float y) {
 			vxy(-x, -y),
 			snap_for_dimension(6), // Need to use even snapping for some reason
 			snap_for_dimension(8),
-			1, 1, 1, 1,
+			color[0], color[1], color[2], color[3],
 			true
 		};
 
@@ -39,7 +41,7 @@ void draw_number(Node *on, int number, float x, float y) {
 	}
 }
 
-void draw_number_rjust(Node *on, int number, float x, float y) {
+void draw_number_rjust(Node *on, int number, float x, float y, float color[4]) {
 	char value[128] = {0};
 	snprintf(value, 128, "%d", number);
 	
@@ -56,7 +58,7 @@ void draw_number_rjust(Node *on, int number, float x, float y) {
 			vxy(-x, -y),
 			snap_for_dimension(6), // Need to use even snapping for some reason
 			snap_for_dimension(8),
-			1, 1, 1, 1,
+			color[0], color[1], color[2], color[3],
 			true
 		};
 
@@ -75,6 +77,7 @@ void tick_Hud(Hud *self, HudTree *tree) {
 
 	set_lpos(self, vxy(0, y));
 
-	draw_number_rjust(self, sdf, -130, 3);
+	draw_number_rjust(self, sdf, -130, 4, color_white);
+	draw_number_rjust(self, 5, -130, -8, color_white);
 	sdf += 10000;
 }

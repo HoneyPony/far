@@ -1,0 +1,15 @@
+Resource list:
+Ore
+Plant
+Wood
+Nebula
+Meteor
+Neutron
+
+Engine: plant, wood, neutron
+
+Battery: ore, nebula, neutron
+
+Solar panel: plant, nebula, meteor
+
+Wrench: ore, wood, meteor

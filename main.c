@@ -3,7 +3,23 @@
 
 #include "render/render_context.h"
 
+int engine_level = 1;
+int battery_level = 1;
+int solar_level = 1;
+int wrench_level = 1;
+
+int ore_count = 0;
+int plant_count = 0;
+int wood_count = 0;
+int nebula_count = 0;
+int meteor_count = 0;
+int neutron_count = 0;
+
 Player *player;
+
+ float color_white[4] = {1, 1, 1, 1};
+ float color_black[4] = {0, 0, 0, 1};
+ float color_red[4] = {1, 0,0, 1};
 
 impl_begin {
 	clear_color[0] = 0;
@@ -16,11 +32,13 @@ impl_begin {
 	ctx.screen.target_height = 220;
 
 	reparent(new(Ship), root);
-
+	
 	player = new(Player);
 	reparent(player, root);
 
 	reparent(new(Hud), root);
+
+	reparent(new(UpgradeMenu), root);
 
 	//reparent(new(Cursor), root);
 }

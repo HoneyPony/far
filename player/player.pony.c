@@ -154,6 +154,6 @@ void tick_Player(Player *self, PlayerTree *tree) {
 
 	//vec2 c = get_gpos(self);
 	//camera_point = add(camera_point, mul(sub(c, camera_point), 0.04));
-	camera_point = get_gpos(self);
+	camera_point = add(get_gpos(self), vxy(0, 30));
 }
 
