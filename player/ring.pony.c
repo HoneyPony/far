@@ -29,7 +29,7 @@ void tick_PlayerRing(PlayerRing *self, PlayerRingTree *tree) {
 	set_lscale(self, vxy(t, t));
 	
 	//self->y -= 30 * get_dt();
-	ltranslate(self, vxy(0, -20 * get_dt()));
+	ltranslate(self, vxy(0, -15 * get_dt()));
 
 
 	//vec2 pos = get_gpos(self);

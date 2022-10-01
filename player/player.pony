@@ -15,7 +15,14 @@
 	sprite : Sprite
 		parent = self
 		set_lpos($, vxy(0, 8));
-		sprite_play($, &res.player.player_tex.loop);
+		sprite_play($, &res.player.player_tex.still);
+		$->snap_relative = self;
+		$->z_index = 5;
+
+	tail : Sprite
+		parent = sprite
+		sprite_play($, &res.player.player_tail_tex.loop);
+		$->snap_relative = self;
 		$->z_index = 5;
 
 	tool_pivot : Node

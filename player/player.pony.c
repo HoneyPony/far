@@ -34,7 +34,7 @@ void ring_particles(Player *self) {
 		self->ring_timer -= RING_PARTICLE_TIME;
 
 		PlayerRing *ring = new(PlayerRing);
-		set_gpos(ring, add(get_gpos(self), vxy(0, 12)));
+		set_gpos(ring, add(get_gpos(self), vxy(0, 8)));
 		reparent(ring, root);
 	}
 }
@@ -88,6 +88,24 @@ void animate_tool(Player *self, PlayerTree *tree) {
 
 }
 
+void update_tail(Player *self, PlayerTree *tree) {
+	float extend = (length(self->velocity) - 0) / 90;
+	extend = clamp(extend, 0, 1);
+	extend = sqrt(extend);
+	extend = lerp(0.0, 8.0, extend);
+	vec2 dir = self->velocity;
+	dir = norm(dir);
+	dir.y *= 0.25;
+
+	set_lpos(tree->sprite, add(vxy(0, 8), mul(dir, 1)));
+
+	// Account for sprite flippign
+	dir.x *= get_lscale(tree->sprite).x;
+	set_lpos(tree->tail, mul(dir, -extend));
+
+	
+}
+
 void tick_Player(Player *self, PlayerTree *tree) {
 	// Retrive state
 	// set_gpos(self, self->unrounded_pos);
@@ -110,7 +128,7 @@ void tick_Player(Player *self, PlayerTree *tree) {
 	ring_particles(self);
 
 	if(mouse.left.just_pressed) {
-		logf_verbose("mouse presssed");
+		//logf_verbose("mouse presssed");
 		self->tool_anim = TOOL_ANIM_TIME;
 	}
 
@@ -118,6 +136,15 @@ void tick_Player(Player *self, PlayerTree *tree) {
 		animate_tool(self, tree);
 		self->tool_anim -= get_dt();
 	}
+
+	if(self->velocity.x < -3) {
+		set_lscale(tree->sprite, vxy(-1, 1));
+	}
+	if(self->velocity.x > 3) {
+		set_lscale(tree->sprite, vxy(1, 1));
+	}
+
+	update_tail(self, tree);
 
 
 	// Save state
