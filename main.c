@@ -96,12 +96,15 @@ void start_game() {
 
 	upgrade_menu = new(UpgradeMenu);
 	reparent(upgrade_menu, root);
+	//set_gpos(upgrade_menu, vxy(0, -10));
 
 	nav_menu = new(NavMenu);
 	reparent(nav_menu, root);
+	//set_gpos(nav_menu, vxy(0, -10));
 
 	book_menu = new(BookMenu);
 	reparent(book_menu, root);
+	//set_gpos(book_menu, vxy(0, -10));
 
 	
 
@@ -125,7 +128,7 @@ impl_begin {
 
 	// Configure screen size
 	ctx.screen.target_width = 360;
-	ctx.screen.target_height = 220;
+	ctx.screen.target_height = 230;
 
 	intro = new(Intro);
 	reparent(intro, root);
