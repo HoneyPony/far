@@ -9,6 +9,8 @@
 #define METEOR 4
 #define NEUTRON 5
 
+extern bool on_planet;
+
 extern int res_count(int kind);
 extern void res_add(int kind, int amount);
 

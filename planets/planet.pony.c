@@ -1,5 +1,6 @@
 #include "my.ponygame.h"
 
+#include "../globals.h"
 
 Sprite *new_tile(int i, int j) {
 	AnimHandle* options[] = { &res.planets.tile1_tex.loop, &res.planets.tile2_tex.loop };
@@ -70,5 +71,13 @@ void construct_Planet(Planet *self) {
 
 // void destruct_Planet(Planet *self) { }
 
-// void tick_Planet(Planet *self, PlanetTree *tree) { }
+void tick_Planet(Planet *self, PlanetTree *tree) {
+	tree->ship_prompt->visible = length(get_gpos(player)) < 20;
+	if(tree->ship_prompt->visible) {
+		if(keys.E.just_pressed) {
+			reparent(new(Ship), root);
+			node_destroy(self);
+		}
+	}
+}
 

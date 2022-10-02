@@ -3,6 +3,8 @@
 
 #include "render/render_context.h"
 
+bool on_planet;
+
 int engine_level = 1;
 int battery_level = 1;
 int solar_level = 1;
