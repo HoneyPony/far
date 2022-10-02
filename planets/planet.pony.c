@@ -31,6 +31,16 @@ void construct_Planet(Planet *self) {
 		set_lpos(rock, pos);
 		reparent(rock, self);
 	}
+
+	for(int i = 0; i < 50; ++i) {
+		Plant *rock = new(Plant);
+		plant_texture(rock);
+		vec2 pos;
+		pos.x = rand_range(-30, 30) * 16;
+		pos.y = rand_range(-30, 30) * 14;
+		set_lpos(rock, pos);
+		reparent(rock, self);
+	}
 }
 
 // void destruct_Planet(Planet *self) { }

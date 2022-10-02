@@ -37,6 +37,8 @@ impl_begin {
 	player = new(Player);
 	reparent(player, root);
 
+	//reparent(new(Ship), root);
+
 	reparent(new(Hud), root);
 
 	upgrade_menu = new(UpgradeMenu);
