@@ -29,6 +29,7 @@ void tick_Tree(Tree *self, TreeTree *tree) {
 				reparent(drop, root);
 			}
 			node_destroy(self);
+			sound_play(res.sound.hard_hit_snd);
 		}
 	}
 }

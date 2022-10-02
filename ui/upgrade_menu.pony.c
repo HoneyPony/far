@@ -280,6 +280,9 @@ void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 				spend_reqs(arr);
 				engine_level += 1;
 				if(engine_level > MAX_ENGINE) engine_level = MAX_ENGINE;
+				else {
+					sound_play(res.reaper.twee_snd);
+				}
 			}
 		}
 	}
@@ -292,6 +295,9 @@ void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 				spend_reqs(arr);
 				battery_level += 1;
 				if(battery_level > MAX_BATTERY) battery_level = MAX_BATTERY;
+				else {
+					sound_play(res.reaper.twee_snd);
+				}
 			}
 		}
 	}
@@ -304,6 +310,9 @@ void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 				spend_reqs(arr);
 				solar_level += 1;
 				if(solar_level > MAX_SOLAR) solar_level = MAX_SOLAR;
+				else {
+					sound_play(res.reaper.twee_snd);
+				}
 			}
 		}
 	}
@@ -316,6 +325,9 @@ void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 				spend_reqs(arr);
 				wrench_level += 1; 
 				if(wrench_level > MAX_WRENCH) wrench_level = MAX_WRENCH;
+				else {
+					sound_play(res.reaper.twee_snd);
+				}
 			}
 		}
 	}

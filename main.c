@@ -15,14 +15,20 @@ int engine_level = 20;
 int battery_level = 1;
 int solar_level = 1;
 int wrench_level = 1;
-
+/*
 int ore_count = 0;
 int plant_count = 0;
 int wood_count = 0;
 int nebula_count = 0;
 int meteor_count = 0;
-int neutron_count = 0;
-
+int neutron_co unt = 0;
+*/
+int ore_count = 999;
+int plant_count = 999;
+int wood_count = 999;
+int nebula_count = 999;
+int meteor_count = 999;
+int neutron_count = 999;
 
 
 int get_drop_count() {
@@ -55,6 +61,8 @@ Ship *ship;
 Fade *fade;
 Planet *planet;
 BookMenu *book_menu;
+
+bool should_pop = false;
 
 Intro *intro;
 
@@ -128,6 +136,8 @@ impl_begin {
 }
 
 impl_tick_start {
+	should_pop = false;
+
 	if(!in_game) {
 		if(mouse.left.just_pressed && intro->t >= 7) {
 			fade_spec(fade, FADE_FROM_INTRO);
@@ -155,5 +165,7 @@ impl_tick_start {
 }
 
 impl_tick_end {
-	
+	if(should_pop) {
+		sound_play(res.sound.pop_snd);
+	}
 }

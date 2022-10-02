@@ -247,6 +247,8 @@ void collisions(vec2 pos, vec2 *dir, vec2 *secondary) {
 void tick_Player(Player *self, PlayerTree *tree) {
 
 	if(upgrade_menu->visible) return;
+	if(book_menu->visible) return;
+	if(nav_menu->visible) return;
 	// Retrive state
 	// set_gpos(self, self->unrounded_pos);
 
@@ -290,6 +292,7 @@ void tick_Player(Player *self, PlayerTree *tree) {
 	if(mouse.left.just_pressed) {
 		//logf_verbose("mouse presssed");
 		self->tool_anim = TOOL_ANIM_TIME;
+		sound_play(rand_range(0, 1) < 1 ? res.sound.swing_snd : res.sound.swing2_snd);
 	}
 
 	if(self->tool_anim > 0) {

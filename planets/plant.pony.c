@@ -34,6 +34,7 @@ void tick_Plant(Plant *self, PlantTree *tree) {
 				reparent(drop, root);
 			}
 			node_destroy(self);
+			sound_play(res.sound.soft_hit_snd);
 		}
 	}
 }

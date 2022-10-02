@@ -32,6 +32,7 @@ void tick_Rock(Rock *self, RockTree *tree) {
 				reparent(drop, root);
 			}
 			node_destroy(self);
+			sound_play(res.sound.hard_hit_snd);
 		}
 	}
 }

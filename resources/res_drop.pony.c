@@ -17,6 +17,8 @@ void construct_ResDrop(ResDrop *self) {
 
 // void destruct_ResDrop(ResDrop *self) { }
 
+extern bool should_pop;
+
 void tick_ResDrop(ResDrop *self, ResDropTree *tree) {
 	vec2 pos = get_gpos(self);
 	pos = add(pos, mul(sub(get_gpos(player), pos), clamp(self->lerp_str, 0.0, 1.0)));
@@ -32,6 +34,7 @@ void tick_ResDrop(ResDrop *self, ResDropTree *tree) {
 
 	if(dist < 1 || self->lerp_str > 0.40) {
 		res_add(self->kind, 1);
+		should_pop = true;
 		node_destroy(self);
 	}
 }

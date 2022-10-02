@@ -58,6 +58,12 @@ void tick_SpaceObj(SpaceObj *self, SpaceObjTree *tree) {
 				reparent(drop, root);
 			}
 			node_destroy(self);
+			if(self->type == METEOR) {
+				sound_play(res.sound.hard_hit_snd);
+			}
+			else {
+				sound_play(res.sound.soft_hit_snd);
+			}
 		}
 	}
 }
