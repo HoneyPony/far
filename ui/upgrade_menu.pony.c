@@ -46,6 +46,32 @@ bool draw_button(UpgradeMenu *self, vec2 mouse_pos, int x, int y) {
 	return hover > 0;
 }
 
+bool draw_back_button(UpgradeMenu *self, vec2 mouse_pos, int x, int y) {
+	int hover = 0;
+	if(mouse_pos.x > x && mouse_pos.x <= x + 49) {
+		if(mouse_pos.y > y && mouse_pos.y <= y + 15) {
+			hover = 1;
+
+			if(mouse.left.pressed) {
+				hover = 2;
+			}
+		}
+	}
+
+	TexRenderer tr = {
+		self, self,
+		&res.ui.back_button_tex.loop.frames[hover].texture,
+		vxy(-x, -y),
+		SNAP_EVEN,
+		SNAP_EVEN,
+		1, 1, 1, 1,
+		true
+	};
+	render_tex_on_node(tr);
+
+	return hover > 0;
+}
+
 void draw_resource_icon(UpgradeMenu *self, int x, int y, int type, int amount, bool enough) {
 	TexRenderer tr = {
 		self, self,
@@ -185,6 +211,12 @@ void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 			if(mouse.left.just_released) {
 				//upgrade 
 			}
+		}
+	}
+
+	if(draw_back_button(self, m, -28, -80)) {
+		if(mouse.left.just_released) {
+			self->visible = false;
 		}
 	}
 }
