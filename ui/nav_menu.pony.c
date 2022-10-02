@@ -198,6 +198,7 @@ void tick_NavMenu(NavMenu *self, NavMenuTree *tree) {
 				reparent(new(Planet), root);
 				set_gpos(player, vxy(0, 0));
 				on_planet = true;
+				hud->battery_charges = 0;
 
 				self->visible = false;
 			}

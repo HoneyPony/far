@@ -62,3 +62,5 @@ PlanetInfo *get_planet_info();
 
 extern double ly_left;
 extern int ly_speed();
+
+extern float get_battery_timer();

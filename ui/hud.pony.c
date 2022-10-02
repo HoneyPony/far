@@ -89,13 +89,15 @@ void tick_Hud(Hud *self, HudTree *tree) {
 	draw_number(self, meteor_count, 60 + 49, -8, color_black);
 	draw_number(self, neutron_count, 60 + 49 * 2, -8, color_black);
 
+	tree->battery->texture = &res.ui.battery_tex.loop.frames[self->battery_charges];
+
 	if(!on_planet) {
 		if(self->battery_timer <= 0) {
 			if(self->battery_charges < 11) {
 				self->battery_charges += 1;
-				tree->battery->texture = &res.ui.battery_tex.loop.frames[self->battery_charges];
+				
 			}
-			self->battery_timer = 0.2;//2.0;
+			self->battery_timer = get_battery_timer();
 		}
 		else {
 			self->battery_timer -= get_dt();

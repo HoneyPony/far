@@ -37,6 +37,11 @@ int ly_speed() {
 	return speeds[engine_level - 1];
 }
 
+float get_battery_timer() {
+	float timers[] = { 3.0, 2.2, 1.4, 0.8, 0.4 };
+	return timers[battery_level - 1];
+}
+
 Player *player;
 UpgradeMenu *upgrade_menu;
 NavMenu *nav_menu;
