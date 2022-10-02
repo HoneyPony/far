@@ -8,8 +8,8 @@ Neutron
 
 Engine: plant, wood, neutron
 
-Battery: ore, nebula, neutron
+Battery: ore, nebula, meteor
 
-Solar panel: plant, nebula, meteor
+Solar panel: plant, nebula, neutron
 
 Wrench: ore, wood, meteor

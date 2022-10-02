@@ -11,4 +11,4 @@
 
 	upgrade : UpgradePrompt
 		parent = self
-		set_lpos($, vxy(-208, 20));
+		set_lpos($, vxy(-3, 15));

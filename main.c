@@ -44,7 +44,8 @@ impl_begin {
 	ctx.screen.target_width = 360;
 	ctx.screen.target_height = 220;
 
-	reparent(new(Planet), root);
+	reparent(new(Ship), root);
+	on_planet = false;
 
 	player = new(Player);
 	reparent(player, root);

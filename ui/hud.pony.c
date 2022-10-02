@@ -73,16 +73,13 @@ void draw_number_rjust(AnyNode *on_ptr, int number, float x, float y, float colo
 	}
 }
 
-int sdf = 1000;
-
 void tick_Hud(Hud *self, HudTree *tree) {
 	int y = ctx.frame_height / 2 - SPRITE_HEIGHT * 0.5;
 
 	set_lpos(self, vxy(0, y));
 
-	draw_number_rjust(self, sdf, -130, 4, color_white);
-	draw_number_rjust(self, 5, -130, -8, color_white);
-	sdf += 10000;
+	//draw_number_rjust(self, light_years, -130, 4, color_white);
+	//draw_number_rjust(self, speed, -130, -8, color_white);
 
 	draw_number(self, ore_count, 60, 5, color_black);
 	draw_number(self, plant_count, 60 + 49, 5, color_black);
@@ -91,4 +88,17 @@ void tick_Hud(Hud *self, HudTree *tree) {
 	draw_number(self, nebula_count, 60, -8, color_black);
 	draw_number(self, meteor_count, 60 + 49, -8, color_black);
 	draw_number(self, neutron_count, 60 + 49 * 2, -8, color_black);
+
+	if(!on_planet) {
+		if(self->battery_timer <= 0) {
+			if(self->battery_charges < 11) {
+				self->battery_charges += 1;
+				tree->battery->texture = &res.ui.battery_tex.loop.frames[self->battery_charges];
+			}
+			self->battery_timer = 2.0;
+		}
+		else {
+			self->battery_timer -= get_dt();
+		}
+	}
 }

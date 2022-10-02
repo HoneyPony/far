@@ -108,7 +108,7 @@ void update_tail(Player *self, PlayerTree *tree) {
 	
 }
 
-void draw_cable(Player *self, PlayerTree *tree, float stretch) {
+void draw_cable(Player *self, PlayerTree *tree, float stretch, float alpha) {
 	set_gpos(tree->cable_pivot, add(get_gpos(tree->tail), vxy(0, -8)));
 
 	TexRenderer tr = {
@@ -117,7 +117,7 @@ void draw_cable(Player *self, PlayerTree *tree, float stretch) {
 		vxy(0, 0),
 		SNAP_EVEN,
 		SNAP_EVEN,
-		1, 1, 1, 0.5,
+		1, 1, 1, 0.5 * alpha,
 		false
 	};
 	render_tex_on_node(tr);
@@ -138,6 +138,8 @@ void tick_Player(Player *self, PlayerTree *tree) {
 
 	update_tool_pivot(tree->tool_pivot, tree->tool_radius, self->tool_anim);
 
+	int max_radius = on_planet ? 400 : 800;
+
 	vec2 input = get_input();
 	vec2 intended_vel = mul(input, 90);
 	vec2 max_acc = sub(intended_vel, self->velocity);
@@ -148,7 +150,7 @@ void tick_Player(Player *self, PlayerTree *tree) {
 
 	self->velocity = add(self->velocity, acc);
 
-	float clamping = (length(get_gpos(self)) - 400) / 20;
+	float clamping = (length(get_gpos(self)) - max_radius) / 20;
 	clamping = clamp(clamping, 0, 1.1);
 
 	vec2 in_pull = mul(norm(get_gpos(self)), -length(self->velocity));
@@ -178,11 +180,11 @@ void tick_Player(Player *self, PlayerTree *tree) {
 
 	update_tail(self, tree);
 
-	if(true) {
-		float stretch = length(get_gpos(self)) / 420;
-		stretch = clamp(stretch, 0, 1);
-		draw_cable(self, tree, stretch);
-	}
+	float ship_cable_alpha = clamp((length(get_gpos(self)) - 700) / 100, 0.0, 1.0);
+	float cable_alpha = on_planet ? 1.0 : ship_cable_alpha;
+	float stretch = length(get_gpos(self)) / (max_radius + 20);
+	stretch = clamp(stretch, 0, 1);
+	draw_cable(self, tree, stretch, cable_alpha);
 
 	int z_index = 700 - (int)get_gpos(self).y;
 	tree->sprite->z_index = z_index;
