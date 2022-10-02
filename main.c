@@ -30,6 +30,13 @@ int get_drop_count() {
 	return a < b ? a : b;
 }
 
+int ly_speed() {
+	int speeds[] = { 1, 3, 7, 15, 40, 90, 181, 375, 797, 1352, 
+		2550, 4949, 9792, 17208, 32025, 65726, 122535, 244099, 450898, 998765 };
+
+	return speeds[engine_level - 1];
+}
+
 Player *player;
 UpgradeMenu *upgrade_menu;
 NavMenu *nav_menu;
@@ -40,7 +47,12 @@ float color_white[4] = {1, 1, 1, 1};
 float color_black[4] = {0, 0, 0, 1};
 float color_red[4] = {1, 0,0, 1};
 
+double ly_left;
+float increase_timer = 10.0;
+
 impl_begin {
+	ly_left = 1291503127;
+
 	srand(time(NULL));
 
 	clear_color[0] = 0;
@@ -80,7 +92,14 @@ impl_begin {
 }
 
 impl_tick_start {
-	
+	if(!on_planet) {
+		ly_left -= (double)ly_speed() / 60.0;
+	}
+	increase_timer -= get_dt();
+	if(increase_timer < 0) {
+		ly_left += 10;
+		increase_timer = 10;
+	}
 }
 
 impl_tick_end {

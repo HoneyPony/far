@@ -54,6 +54,11 @@ typedef struct {
 	int y;
 
 	float color[4];
+
+	int how_full;
 } PlanetInfo;
 extern void generate_new_options();
 PlanetInfo *get_planet_info();
+
+extern double ly_left;
+extern int ly_speed();

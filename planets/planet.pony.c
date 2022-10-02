@@ -31,7 +31,9 @@ void construct_Planet(Planet *self) {
 		}
 	}
 
-	int item_count = 70;
+	int a = rand_range(60, get_planet_info()->how_full);
+	int b = rand_range(60, get_planet_info()->how_full);
+	int item_count = a > b ? a : b;
 
 	for(int i = 0; i < item_count; ++i) {
 		int item_type = rand_range(0, 20);
@@ -54,29 +56,36 @@ void construct_Planet(Planet *self) {
 		if(item_type == 2 && !info->has_trees) { item_type = 0; } // Two loops through should handle most (all?) cases
 
 		if(item_type == 0) {
-			Rock *rock = new(Rock);
-			rock_texture(rock);
 			vec2 pos;
 			pos.x = rand_range(-24, 24) * 16;
 			pos.y = rand_range(-30, 30) * 14;
+			if(length(pos) < 64) continue;
+
+			Rock *rock = new(Rock);
+			rock_texture(rock);
 			set_lpos(rock, pos);
 			reparent(rock, self);
 		}
 		else if(item_type == 1) {
-			Plant *rock = new(Plant);
-			plant_texture(rock);
 			vec2 pos;
 			pos.x = rand_range(-24, 24) * 16;
 			pos.y = rand_range(-30, 30) * 14;
+			if(length(pos) < 64) continue;
+			Plant *rock = new(Plant);
+			plant_texture(rock);
+			
 			set_lpos(rock, pos);
 			reparent(rock, self);
 		}
 		else {
-			Tree *rock = new(Tree);
-			tree_texture(rock);
 			vec2 pos;
 			pos.x = rand_range(-24, 24) * 16;
 			pos.y = rand_range(-30, 30) * 14;
+			if(length(pos) < 64) continue;
+
+			Tree *rock = new(Tree);
+			tree_texture(rock);
+			
 			set_lpos(rock, pos);
 			reparent(rock, self);
 		}

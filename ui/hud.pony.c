@@ -78,8 +78,8 @@ void tick_Hud(Hud *self, HudTree *tree) {
 
 	set_lpos(self, vxy(0, y));
 
-	//draw_number_rjust(self, light_years, -130, 4, color_white);
-	//draw_number_rjust(self, speed, -130, -8, color_white);
+	draw_number_rjust(self, lround(ly_left), -130, 4, color_white);
+	draw_number_rjust(self, ly_speed(), -130, -8, color_white);
 
 	draw_number(self, ore_count, 60, 5, color_black);
 	draw_number(self, plant_count, 60 + 49, 5, color_black);

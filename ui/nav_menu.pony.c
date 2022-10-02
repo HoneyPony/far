@@ -41,6 +41,7 @@ void generate_new_options() {
 	options[0].has_plants = rand_range(0, 10) > 7;
 	options[0].has_trees = false;
 	options[0].icon = rand_range(0, 4);
+	options[0].how_full = rand_range(60, 80);
 	standard_planet_gen(&options[0]);
 
 
@@ -48,6 +49,7 @@ void generate_new_options() {
 	options[1].has_plants = rand_range(0, 10) > 3;
 	options[1].has_trees = rand_range(0, 12) > 11;
 	options[1].icon = rand_range(0, 4);
+	options[1].how_full = rand_range(70, 100);
 	if(barren(options[1])) {
 		options[1].has_plants = true;
 	}
@@ -57,6 +59,7 @@ void generate_new_options() {
 	options[2].has_plants = rand_range(0, 10) > 2;
 	options[2].has_trees = rand_range(0, 10) > 1;
 	options[2].icon = rand_range(0, 4);
+	options[2].how_full = rand_range(75, 110);
 	if(barren(options[2])) {
 		options[2].has_trees = 2;
 	}

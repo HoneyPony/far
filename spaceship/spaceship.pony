@@ -1,5 +1,7 @@
 @type Ship : Node
 
+@tick
+@construct
 
 @tree
 	self : Ship
