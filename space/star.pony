@@ -8,4 +8,4 @@
 	sprite : Sprite
 		parent = self
 		sprite_play($, &res.space.star_tex.loop);
-		$->z_index = -100;
+		$->z_index = -500;

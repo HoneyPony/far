@@ -4,11 +4,11 @@
 
 // Automatically copied header lines. May not be useful.
 
-// void construct_UpgradePrompt(UpgradePrompt *self) { }
+// void construct_BookPrompt(BookPrompt *self) { }
 
-// void destruct_UpgradePrompt(UpgradePrompt *self) { }
+// void destruct_BookPrompt(BookPrompt *self) { }
 
-void tick_UpgradePrompt(UpgradePrompt *self, UpgradePromptTree *tree) {
+void tick_BookPrompt(BookPrompt *self, BookPromptTree *tree) {
 	if(has_won) {
 		tree->prompt->visible = false;
 		return;
@@ -22,8 +22,8 @@ void tick_UpgradePrompt(UpgradePrompt *self, UpgradePromptTree *tree) {
 	tree->prompt->visible = (abs(dif.x) < 24) && (abs(dif.y) < 24);
 
 	if(keys.E.just_pressed && tree->prompt->visible) {
-		upgrade_menu->visible = true;
+		book_menu->visible = true;
 	}
-	//logf_verbose("visible: %d", self->visible);
+	//logf_verbose("visible: 
 }
 

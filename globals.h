@@ -15,6 +15,7 @@
 #define MAX_WRENCH 20
 
 extern bool on_planet;
+extern bool has_won;
 
 extern int res_count(int kind);
 extern void res_add(int kind, int amount);
@@ -23,6 +24,7 @@ extern void res_add(int kind, int amount);
 
 extern Player *player;
 extern UpgradeMenu *upgrade_menu;
+extern BookMenu *book_menu;
 extern NavMenu *nav_menu;
 extern Hud *hud;
 extern Ship *ship;
@@ -66,3 +68,5 @@ extern double ly_left;
 extern int ly_speed();
 
 extern float get_battery_timer();
+
+#define CORE_CENTER vxy(1500, -90)

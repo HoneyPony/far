@@ -1,5 +1,7 @@
 #include "my.ponygame.h"
 
+#include "../globals.h"
+
 // Automatically copied header lines. May not be useful.
 
 void try_spawn(float negative) {
@@ -20,9 +22,11 @@ void try_spawn(float negative) {
 }
 
 void construct_Ship(Ship *self) {
+
+	
 	// Pretend the ship had existed for 200 frames
 	float t = 0;
-	for(int i = 0; i < 200; ++i) {
+	for(int i = 0; i < 3000; ++i) {
 		try_spawn(t);
 		t += 1;
 	}
@@ -33,6 +37,10 @@ void construct_Ship(Ship *self) {
 
 
 void tick_Ship(Ship *self, ShipTree *tree) { 
+	if(has_won)  {
+		return; // No spawning stars after won
+	}
+
 	try_spawn(0);
 }
 

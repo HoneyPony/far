@@ -4,11 +4,14 @@
 #include "my.ponygame.h"
 #include "pony.main.h"
 
+#include "../globals.h"
+
 #include "render/render_context.h"
 
 bool on_planet;
+bool has_won = false;
 
-int engine_level = 1;
+int engine_level = 20;
 int battery_level = 1;
 int solar_level = 1;
 int wrench_level = 1;
@@ -19,6 +22,8 @@ int wood_count = 0;
 int nebula_count = 0;
 int meteor_count = 0;
 int neutron_count = 0;
+
+
 
 int get_drop_count() {
 	if(wrench_level == 1) {
@@ -31,10 +36,10 @@ int get_drop_count() {
 }
 
 int ly_speed() {
-	int speeds[] = { 1, 3, 7, 15, 40, 90, 181, 375, 797, 1352, 
-		2550, 4949, 9792, 17208, 32025, 65726, 122535, 244099, 450898, 998765 };
+	int speeds[] = { 1, 3, 7, 15, 40, 90, 181, 375, 797,
+		2550, 4949, 17208, 65726, 122535, 244099, 450898, 998765, 2531329, 5023937, 10249308 };
 
-	return speeds[engine_level - 1];
+	return speeds[engine_level - 1] * 100;
 }
 
 float get_battery_timer() {
@@ -49,6 +54,7 @@ Hud *hud;
 Ship *ship;
 Fade *fade;
 Planet *planet;
+BookMenu *book_menu;
 
 Intro *intro;
 
@@ -83,6 +89,9 @@ void start_game() {
 	nav_menu = new(NavMenu);
 	reparent(nav_menu, root);
 
+	book_menu = new(BookMenu);
+	reparent(book_menu, root);
+
 	
 
 	//reparent(new(Cursor), root)
@@ -105,8 +114,9 @@ impl_begin {
 	ctx.screen.target_width = 360;
 	ctx.screen.target_height = 220;
 
-	intro = new(Intro);
-	reparent(intro, root);
+	//intro = new(Intro);
+	//reparent(intro, root);
+	start_game();
 
 	fade = new(Fade);
 	reparent(fade, root);
@@ -125,6 +135,15 @@ impl_tick_start {
 
 	if(!on_planet) {
 		ly_left -= (double)ly_speed() / 60.0;
+		if(ly_left < 0) {
+			ly_left = 0;
+			if(!has_won) {
+				Core *core = new(Core);
+				set_gpos(core, CORE_CENTER);
+				reparent(core, root);
+			}
+			has_won = true;
+		}
 	}
 	increase_timer -= get_dt();
 	if(increase_timer < 0) {

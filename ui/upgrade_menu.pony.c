@@ -245,6 +245,10 @@ void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 		self->visible = false;
 	}
 
+	if(has_won)  {
+		self->visible = false;
+	}
+
 	tree->sprite->visible = self->visible;
 	if(!self->visible) return;
 

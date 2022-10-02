@@ -78,8 +78,10 @@ void tick_Hud(Hud *self, HudTree *tree) {
 
 	set_lpos(self, vxy(0, y));
 
-	draw_number_rjust(self, lround(ly_left), -130, 4, color_white);
-	draw_number_rjust(self, ly_speed(), -130, -8, color_white);
+	if(!has_won) {
+		draw_number_rjust(self, lround(ly_left), -130, 4, color_white);
+		draw_number_rjust(self, ly_speed(), -130, -8, color_white);
+	}
 
 	draw_number(self, ore_count, 60, 5, color_black);
 	draw_number(self, plant_count, 60 + 49, 5, color_black);
@@ -90,6 +92,8 @@ void tick_Hud(Hud *self, HudTree *tree) {
 	draw_number(self, neutron_count, 60 + 49 * 2, -8, color_black);
 
 	tree->battery->texture = &res.ui.battery_tex.loop.frames[self->battery_charges];
+
+	tree->success->visible = has_won;
 
 	if(!on_planet) {
 		if(self->battery_timer <= 0) {

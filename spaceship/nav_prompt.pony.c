@@ -8,6 +8,11 @@
 // void destruct_NavPrompt(NavPrompt *self) { }
 
 void tick_NavPrompt(NavPrompt *self, NavPromptTree *tree) {
+	if(has_won) {
+		tree->prompt->visible = false;
+		return;
+	}
+
 	vec2 dif = sub(get_gpos(self), get_gpos(player));
 	//float dist = length(dif);
 

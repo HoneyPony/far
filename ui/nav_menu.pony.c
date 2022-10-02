@@ -100,7 +100,7 @@ static bool draw_button(NavMenu *self, vec2 mouse_pos, int x, int y, AnimFrame *
 	return hover > 0;
 }
 
-static bool draw_back_button(UpgradeMenu *self, vec2 mouse_pos, int x, int y) {
+static bool draw_back_button(NavMenu *self, vec2 mouse_pos, int x, int y) {
 	int hover = 0;
 	if(mouse_pos.x > x && mouse_pos.x <= x + 49) {
 		if(mouse_pos.y > y && mouse_pos.y <= y + 15) {
@@ -143,6 +143,10 @@ void draw_resource_icon(UpgradeMenu *self, int x, int y, int type, int amount, b
 
 void tick_NavMenu(NavMenu *self, NavMenuTree *tree) {
 	if(keys.Escape.just_pressed) {
+		self->visible = false;
+	}
+
+	if(has_won)  {
 		self->visible = false;
 	}
 

@@ -21,3 +21,11 @@
 		$->on_camera = true;
 		$->snap_relative = self;
 		$->texture = &res.ui.battery_tex.loop.frames[0].texture;
+
+	success : Sprite
+		parent = hud
+		sprite_play($, &res.ui.hud_success_tex.loop);
+		$->z_index = 2020;
+		$->on_camera = true;
+		$->snap_relative = self;
+		$->visible = false;

@@ -9,6 +9,10 @@
 // void destruct_Star(Star *self) { }
 
 void tick_Star(Star *self, StarTree *tree) {
+	if(has_won)  {
+		return; // Stars stay put after we win
+	}
+
 	if(on_planet) {
 		node_destroy(self);
 		return;
