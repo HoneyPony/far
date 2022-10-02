@@ -9,6 +9,7 @@
 	void fade_spec(Fade *self, int what);
 	#define FADE_TO_PLANET 0
 	#define FADE_TO_SHIP 1
+	#define FADE_FROM_INTRO 2
 
 @tree
 	self : Fade

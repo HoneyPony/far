@@ -38,6 +38,8 @@ void fire_to_ship() {
 
 // void destruct_Fade(Fade *self) { }
 
+extern void start_game();
+
 void tick_Fade(Fade *self, FadeTree *tree) {
 	//logf_verbose("fade t = %f", self->t);
 
@@ -58,6 +60,9 @@ void tick_Fade(Fade *self, FadeTree *tree) {
 			}
 			else if(self->what_to_do == FADE_TO_SHIP) {
 				fire_to_ship();
+			}
+			else if(self->what_to_do == FADE_FROM_INTRO) {
+				start_game();
 			}
 		}
 	}

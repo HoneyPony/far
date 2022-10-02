@@ -50,12 +50,46 @@ Ship *ship;
 Fade *fade;
 Planet *planet;
 
+Intro *intro;
+
 float color_white[4] = {1, 1, 1, 1};
 float color_black[4] = {0, 0, 0, 1};
 float color_red[4] = {1, 0,0, 1};
 
 double ly_left;
 float increase_timer = 10.0;
+
+bool in_game = false;
+
+void start_game() {
+	in_game = true;
+
+	node_destroy(intro);
+
+	ship = new(Ship);
+	reparent(ship, root);
+	on_planet = false;
+
+	player = new(Player);
+	reparent(player, root);
+
+	//reparent(new(Ship), root);
+	hud = new(Hud);
+	reparent(hud, root);
+
+	upgrade_menu = new(UpgradeMenu);
+	reparent(upgrade_menu, root);
+
+	nav_menu = new(NavMenu);
+	reparent(nav_menu, root);
+
+	
+
+	//reparent(new(Cursor), root)
+	// Initial planet options
+	generate_new_options();
+}
+
 
 impl_begin {
 	ly_left = 1291503127;
@@ -71,37 +105,24 @@ impl_begin {
 	ctx.screen.target_width = 360;
 	ctx.screen.target_height = 220;
 
-	ship = new(Ship);
-	reparent(ship, root);
-	on_planet = false;
-
-	
-
-	player = new(Player);
-	reparent(player, root);
-
-	//reparent(new(Ship), root);
-	hud = new(Hud);
-	reparent(hud, root);
-
-	upgrade_menu = new(UpgradeMenu);
-	reparent(upgrade_menu, root);
-
-	nav_menu = new(NavMenu);
-	reparent(nav_menu, root);
+	intro = new(Intro);
+	reparent(intro, root);
 
 	fade = new(Fade);
 	reparent(fade, root);
-
-	//reparent(new(Cursor), root)
-	// Initial planet options
-	generate_new_options();
 
 	//reparent(new(Planet), root);
 	//on_planet = true;
 }
 
 impl_tick_start {
+	if(!in_game) {
+		if(mouse.left.just_pressed && intro->t >= 7) {
+			fade_spec(fade, FADE_FROM_INTRO);
+		}
+		return;
+	}
+
 	if(!on_planet) {
 		ly_left -= (double)ly_speed() / 60.0;
 	}
