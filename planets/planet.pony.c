@@ -98,12 +98,7 @@ void tick_Planet(Planet *self, PlanetTree *tree) {
 	tree->ship_prompt->visible = length(get_gpos(player)) < 20;
 	if(tree->ship_prompt->visible) {
 		if(keys.E.just_pressed) {
-			// Always generate new planets when we return to the ship.
-			generate_new_options();
-			ship = new(Ship);
-			on_planet = false;
-			reparent(ship, root);
-			node_destroy(self);
+			fade_spec(fade, FADE_TO_SHIP);
 		}
 	}
 }

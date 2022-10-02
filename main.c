@@ -39,7 +39,7 @@ int ly_speed() {
 
 float get_battery_timer() {
 	float timers[] = { 3.0, 2.2, 1.4, 0.8, 0.4 };
-	return timers[battery_level - 1];
+	return timers[battery_level - 1] * 0.01;
 }
 
 Player *player;
@@ -47,6 +47,8 @@ UpgradeMenu *upgrade_menu;
 NavMenu *nav_menu;
 Hud *hud;
 Ship *ship;
+Fade *fade;
+Planet *planet;
 
 float color_white[4] = {1, 1, 1, 1};
 float color_black[4] = {0, 0, 0, 1};
@@ -87,6 +89,9 @@ impl_begin {
 
 	nav_menu = new(NavMenu);
 	reparent(nav_menu, root);
+
+	fade = new(Fade);
+	reparent(fade, root);
 
 	//reparent(new(Cursor), root)
 	// Initial planet options

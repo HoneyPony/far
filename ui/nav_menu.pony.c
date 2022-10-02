@@ -193,13 +193,7 @@ void tick_NavMenu(NavMenu *self, NavMenuTree *tree) {
 	if(hud->battery_charges >= 11) {
 		if(draw_button(self, m, 70, OPT_Y , res.ui.button_nav_fly_tex.loop.frames)) {
 			if(mouse.left.just_released) {
-				node_destroy(ship);
-				ship = NULL; // Floating reference = bad news
-				reparent(new(Planet), root);
-				set_gpos(player, vxy(0, 0));
-				on_planet = true;
-				hud->battery_charges = 0;
-
+				fade_spec(fade, FADE_TO_PLANET);
 				self->visible = false;
 			}
 		}

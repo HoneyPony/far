@@ -26,6 +26,8 @@ extern UpgradeMenu *upgrade_menu;
 extern NavMenu *nav_menu;
 extern Hud *hud;
 extern Ship *ship;
+extern Fade *fade;
+extern Planet *planet;
 
 extern int engine_level;
 extern int battery_level;
