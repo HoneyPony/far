@@ -39,3 +39,7 @@
 		$->z_index = 5;
 		set_lpos($, vxy(10, 10));
 		sprite_play($, &res.tools.wrench_tex.wrench);
+
+	cable_pivot : Node
+		parent = self
+		$->z_index = 100;

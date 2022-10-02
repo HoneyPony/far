@@ -108,6 +108,28 @@ void update_tail(Player *self, PlayerTree *tree) {
 	
 }
 
+void draw_cable(Player *self, PlayerTree *tree, float stretch) {
+	set_gpos(tree->cable_pivot, add(get_gpos(tree->tail), vxy(0, -8)));
+
+	TexRenderer tr = {
+		tree->cable_pivot, self,
+		&res.player.cable_tex.loop.frames[0].texture,
+		vxy(0, 0),
+		SNAP_EVEN,
+		SNAP_EVEN,
+		1, 1, 1, 0.5,
+		false
+	};
+	render_tex_on_node(tr);
+
+	vec2 to_center = sub(vxy(0, 0), get_gpos(tree->cable_pivot));
+
+	//float sx = get_lscale(tree->sprite).x;
+
+	set_lrot(tree->cable_pivot, atan2(to_center.y, to_center.x));
+	set_lscale(tree->cable_pivot, vxy(length(to_center) / 16.0, lerp(1.0, 0.25, stretch)));
+}
+
 void tick_Player(Player *self, PlayerTree *tree) {
 
 	if(upgrade_menu->visible) return;
@@ -126,7 +148,13 @@ void tick_Player(Player *self, PlayerTree *tree) {
 
 	self->velocity = add(self->velocity, acc);
 
+	float clamping = (length(get_gpos(self)) - 400) / 20;
+	clamping = clamp(clamping, 0, 1.1);
+
+	vec2 in_pull = mul(norm(get_gpos(self)), -length(self->velocity));
+
 	ltranslate(self, mul(self->velocity, get_dt()));
+	ltranslate(self, mul(in_pull, clamping * get_dt()));
 	//tree->sprite->a = 0.5;
 
 	ring_particles(self);
@@ -149,6 +177,12 @@ void tick_Player(Player *self, PlayerTree *tree) {
 	}
 
 	update_tail(self, tree);
+
+	if(true) {
+		float stretch = length(get_gpos(self)) / 420;
+		stretch = clamp(stretch, 0, 1);
+		draw_cable(self, tree, stretch);
+	}
 
 
 	// Save state

@@ -10,9 +10,11 @@ Sprite *new_tile(int i, int j) {
 	return tile;
 }
 
+#define RADIUS 50
+
 void construct_Planet(Planet *self) {
-	for(int i = -30; i <= 30; ++i) {
-		for(int j = -30; j <= 30; ++j) {
+	for(int i = -RADIUS; i <= RADIUS; ++i) {
+		for(int j = -RADIUS; j <= RADIUS; ++j) {
 	//for(int i = 0; i <= 0; ++i) { for(int j = 0; j <= 0; ++j) {
 			Sprite *tile = new_tile(i, j);
 			tile->z_index = -100;
