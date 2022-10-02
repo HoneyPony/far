@@ -95,7 +95,7 @@ void tick_Hud(Hud *self, HudTree *tree) {
 				self->battery_charges += 1;
 				tree->battery->texture = &res.ui.battery_tex.loop.frames[self->battery_charges];
 			}
-			self->battery_timer = 2.0;
+			self->battery_timer = 0.2;//2.0;
 		}
 		else {
 			self->battery_timer -= get_dt();

@@ -2,6 +2,9 @@
 	
 @tick
 
+@header
+	void rock_texture(Rock *self);
+
 @tree
 	self : Rock
 

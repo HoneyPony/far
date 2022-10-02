@@ -8,6 +8,12 @@
 
 // void destruct_Rock(Rock *self) { }
 
+void rock_texture(Rock *self) {
+	AnimHandle* list[] = {&res.planets.rock1_tex.loop, &res.planets.rock2_tex.loop, &res.planets.rock3_tex.loop};
+
+	sprite_play(self->tree.sprite, list[rand_range(0, 2)]);
+}
+
 void tick_Rock(Rock *self, RockTree *tree) {
 	tree->sprite->z_index = 700 - (int)get_gpos(self).y;
 

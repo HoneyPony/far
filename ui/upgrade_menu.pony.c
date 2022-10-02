@@ -129,14 +129,73 @@ void res_add(int kind, int amount) {
 
 void get_upreq_engine(int level, UpgradeRequirement out[3]) {
 	if(level == 1) {
-		out[0] = req(ORE, 10);
-		out[1] = req(WOOD, 10);
-		out[2] = req(NEUTRON, 10);
+		out[0] = req(ORE, 20);
+		out[1] = req(WOOD, 12);
+		out[2] = req(NEUTRON, 3);
 	}
 	else {
-		out[0] = req(ORE, 0);
-		out[1] = req(WOOD, 0);
-		out[2] = req(NEUTRON, 0);
+		int x = level - 1;
+		int y = level - 4;
+		if(y < 0) y = 0;
+		out[0] = req(ORE, 20 + x * (5 + y));
+		out[1] = req(WOOD, 12 + x * (3 + y));
+		out[2] = req(NEUTRON, 3 + x * 3);
+	}
+}
+
+void get_upreq_battery(int level, UpgradeRequirement out[3]) {
+	if(level == 1) {
+		out[0] = req(ORE, 30);
+	}
+	if(level == 2) {
+		out[0] = req(ORE, 40);
+		out[1] = req(NEBULA, 10);
+		out[2] = req(METEOR, 10);
+	}
+}
+
+void get_upreq_solar(int level, UpgradeRequirement out[3]) {
+	if(level == 1) {
+		out[0] = req(PLANT, 30);
+		out[1] = req(NEBULA, 8);
+	}
+	if(level == 2) {
+		out[0] = req(PLANT, 35);
+		out[1] = req(NEBULA, 12);
+		out[2] = req(NEUTRON, 1);
+	}
+	if(level == 3) {
+		out[0] = req(PLANT, 40);
+		out[1] = req(NEBULA, 12);
+		out[2] = req(NEUTRON, 3);
+	}
+	if(level == 4) {
+		out[0] = req(PLANT, 60);
+		out[1] = req(NEBULA, 20);
+		out[2] = req(NEUTRON, 10);
+	}
+}
+
+void get_upreq_wrench(int level, UpgradeRequirement out[3]) {
+	if(level == 1) {
+		out[0] = req(ORE, 40);
+	}
+	else if(level == 2) {
+		out[0] = req(ORE, 40);
+		out[1] = req(METEOR, 10);
+	}
+	else if(level == 3) {
+		out[0] = req(ORE, 40);
+		out[1] = req(WOOD, 20);
+		out[2] = req(METEOR, 10);
+	}
+	else {
+		int x = level - 3;
+		int y = level - 8;
+		if(y < 0) y = 0;
+		out[0] = req(ORE, 40 + x * 5);
+		out[1] = req(WOOD, 20 + x * 10);
+		out[2] = req(METEOR, 10 + x * (1 + y));
 	}
 }
 
@@ -157,6 +216,30 @@ bool draw_upgrade_reqs(UpgradeMenu *self, int y, UpgradeRequirement arr[3]) {
 	return can_upgrade;
 }
 
+void draw_num_or_max(UpgradeMenu *self, int x, int y, int level, int max) {
+	if(level >= max) {
+		TexRenderer tr = {
+			self, self,
+			&res.ui.max_tex.loop.frames[0].texture, // texture
+			vxy(-x, -y),
+			SNAP_EVEN, // Need to use even snapping for some reason
+			SNAP_EVEN,
+			1, 1, 1, 1,
+			true
+		};
+		render_tex_on_node(tr);
+		return;
+	}
+
+	draw_number(self, level, x, y, color_black);
+}
+
+void spend_reqs(UpgradeRequirement arr[3]) {
+	for(int i = 0; i < 3; ++i) {
+		res_add(arr[i].kind, -arr[i].amount);
+	}
+}
+
 void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 	if(keys.Escape.just_pressed) {
 		self->visible = false;
@@ -165,10 +248,12 @@ void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 	tree->sprite->visible = self->visible;
 	if(!self->visible) return;
 
-	draw_number(self, engine_level, -76, 42, color_black);
-	draw_number(self, battery_level, -76, 42 - 31, color_black);
-	draw_number(self, solar_level, -76, 42 - 2 * 31, color_black);
-	draw_number(self, wrench_level, -76, 42 - 3 * 31, color_black);
+
+
+	draw_num_or_max(self, -76, 42, engine_level, MAX_ENGINE);
+	draw_num_or_max(self, -76, 42 - 31, battery_level, MAX_BATTERY);
+	draw_num_or_max(self, -76, 42 - 2 * 31, solar_level, MAX_SOLAR);
+	draw_num_or_max(self, -76, 42 - 3 * 31, wrench_level, MAX_WRENCH);
 
 	UpgradeRequirement arr[3];
 
@@ -176,40 +261,48 @@ void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 
 	reset_upreq(arr);
 	get_upreq_engine(engine_level, arr);
-	if(draw_upgrade_reqs(self, 42, arr)) {
+	if(draw_upgrade_reqs(self, 42, arr) && (engine_level < MAX_ENGINE)) {
 		if(draw_button(self, m, 60, 44)) {
 			if(mouse.left.just_released) {
-				//upgrade engine
+				spend_reqs(arr);
+				engine_level += 1;
+				if(engine_level > MAX_ENGINE) engine_level = MAX_ENGINE;
 			}
 		}
 	}
 
 	reset_upreq(arr);
-	get_upreq_engine(engine_level, arr);
-	if(draw_upgrade_reqs(self, 42 - 31, arr)) {
+	get_upreq_battery(battery_level, arr);
+	if(draw_upgrade_reqs(self, 42 - 31, arr) && (battery_level < MAX_BATTERY)) {
 		if(draw_button(self, m, 60, 44 - 31)) {
 			if(mouse.left.just_released) {
-				//upgrade 
+				spend_reqs(arr);
+				battery_level += 1;
+				if(battery_level > MAX_BATTERY) battery_level = MAX_BATTERY;
 			}
 		}
 	}
 
 	reset_upreq(arr);
-	get_upreq_engine(engine_level, arr);
-	if(draw_upgrade_reqs(self, 42 - 31 * 2, arr)) {
+	get_upreq_solar(solar_level, arr);
+	if(draw_upgrade_reqs(self, 42 - 31 * 2, arr) && (solar_level < MAX_SOLAR)) {
 		if(draw_button(self, m, 60, 44 - 31 * 2)) {
 			if(mouse.left.just_released) {
-				//upgrade 
+				spend_reqs(arr);
+				solar_level += 1;
+				if(solar_level > MAX_SOLAR) solar_level = MAX_SOLAR;
 			}
 		}
 	}
 
 	reset_upreq(arr);
-	get_upreq_engine(engine_level, arr);
-	if(draw_upgrade_reqs(self, 42 - 31 * 3, arr)) {
+	get_upreq_wrench(wrench_level, arr);
+	if(draw_upgrade_reqs(self, 42 - 31 * 3, arr) && (wrench_level < MAX_WRENCH)) {
 		if(draw_button(self, m, 60, 44 - 31 * 3)) {
 			if(mouse.left.just_released) {
-				//upgrade 
+				spend_reqs(arr);
+				wrench_level += 1; 
+				if(wrench_level > MAX_WRENCH) wrench_level = MAX_WRENCH;
 			}
 		}
 	}

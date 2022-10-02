@@ -11,6 +11,7 @@
 		parent = self
 		sprite_play($, &res.planets.pod_tex.loop);
 		set_lpos($, vxy(0, 28));
+		$->z_index = 20;
 
 	ship_prompt : Sprite
 		parent = self

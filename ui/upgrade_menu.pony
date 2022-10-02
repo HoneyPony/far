@@ -5,10 +5,10 @@
 
 @tree
 	self : UpgradeMenu
-		$->z_index = 1005;
+		$->z_index = 2005;
 
 	sprite : Sprite
 		parent = self
 		sprite_play($, &res.ui.upgrade_menu_tex.loop);
-		$->z_index = 1000;
+		$->z_index = 2000;
 		$->on_camera = true;

@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <time.h>
+
 #include "my.ponygame.h"
 #include "pony.main.h"
 
@@ -29,12 +32,17 @@ int get_drop_count() {
 
 Player *player;
 UpgradeMenu *upgrade_menu;
+NavMenu *nav_menu;
+Hud *hud;
+Ship *ship;
 
- float color_white[4] = {1, 1, 1, 1};
- float color_black[4] = {0, 0, 0, 1};
- float color_red[4] = {1, 0,0, 1};
+float color_white[4] = {1, 1, 1, 1};
+float color_black[4] = {0, 0, 0, 1};
+float color_red[4] = {1, 0,0, 1};
 
 impl_begin {
+	srand(time(NULL));
+
 	clear_color[0] = 0;
 	clear_color[1] = 0;
 	clear_color[2] = 0;
@@ -44,20 +52,31 @@ impl_begin {
 	ctx.screen.target_width = 360;
 	ctx.screen.target_height = 220;
 
-	reparent(new(Ship), root);
+	ship = new(Ship);
+	reparent(ship, root);
 	on_planet = false;
+
+	
 
 	player = new(Player);
 	reparent(player, root);
 
 	//reparent(new(Ship), root);
-
-	reparent(new(Hud), root);
+	hud = new(Hud);
+	reparent(hud, root);
 
 	upgrade_menu = new(UpgradeMenu);
 	reparent(upgrade_menu, root);
 
-	//reparent(new(Cursor), root);
+	nav_menu = new(NavMenu);
+	reparent(nav_menu, root);
+
+	//reparent(new(Cursor), root)
+	// Initial planet options
+	generate_new_options();
+
+	//reparent(new(Planet), root);
+	//on_planet = true;
 }
 
 impl_tick_start {

@@ -12,3 +12,7 @@
 	upgrade : UpgradePrompt
 		parent = self
 		set_lpos($, vxy(-3, 15));
+
+	nav : NavPrompt
+		parent = self
+		set_lpos($, vxy(-3 + 362, 19 + 5));

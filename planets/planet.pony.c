@@ -8,12 +8,19 @@ Sprite *new_tile(int i, int j) {
 	set_gpos(tile, vxy(16 * i, 14 * j));
 	sprite_play(tile, options[rand_range(0,1)]);
 
+	float *color = get_planet_info()->color;
+	tile->r = color[0];
+	tile->g = color[1];
+	tile->b = color[2];
+
 	return tile;
 }
 
 #define RADIUS 50
 
 void construct_Planet(Planet *self) {
+	PlanetInfo *info = get_planet_info();
+
 	for(int i = -RADIUS; i <= RADIUS; ++i) {
 		for(int j = -RADIUS; j <= RADIUS; ++j) {
 	//for(int i = 0; i <= 0; ++i) { for(int j = 0; j <= 0; ++j) {
@@ -39,9 +46,16 @@ void construct_Planet(Planet *self) {
 		else {
 			item_type = 0;
 		}
+		if(item_type == 0 && !info->has_rocks) { item_type = 1; }
+		if(item_type == 1 && !info->has_plants) { item_type = 2; }
+		if(item_type == 2 && !info->has_trees) { item_type = 0; }
+		if(item_type == 0 && !info->has_rocks) { item_type = 1; }
+		if(item_type == 1 && !info->has_plants) { item_type = 2; }
+		if(item_type == 2 && !info->has_trees) { item_type = 0; } // Two loops through should handle most (all?) cases
 
 		if(item_type == 0) {
 			Rock *rock = new(Rock);
+			rock_texture(rock);
 			vec2 pos;
 			pos.x = rand_range(-24, 24) * 16;
 			pos.y = rand_range(-30, 30) * 14;
@@ -75,7 +89,11 @@ void tick_Planet(Planet *self, PlanetTree *tree) {
 	tree->ship_prompt->visible = length(get_gpos(player)) < 20;
 	if(tree->ship_prompt->visible) {
 		if(keys.E.just_pressed) {
-			reparent(new(Ship), root);
+			// Always generate new planets when we return to the ship.
+			generate_new_options();
+			ship = new(Ship);
+			on_planet = false;
+			reparent(ship, root);
 			node_destroy(self);
 		}
 	}
