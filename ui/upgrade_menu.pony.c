@@ -130,7 +130,7 @@ void res_add(int kind, int amount) {
 void get_upreq_engine(int level, UpgradeRequirement out[3]) {
 	if(level == 1) {
 		out[0] = req(ORE, 20);
-		out[1] = req(WOOD, 12);
+		out[1] = req(WOOD, 8);
 		out[2] = req(NEUTRON, 3);
 	}
 	else {
@@ -138,7 +138,7 @@ void get_upreq_engine(int level, UpgradeRequirement out[3]) {
 		int y = level - 4;
 		if(y < 0) y = 0;
 		out[0] = req(ORE, 20 + x * (5 + y));
-		out[1] = req(WOOD, 12 + x * (3 + y));
+		out[1] = req(WOOD, 8 + x * (2 + y));
 		out[2] = req(NEUTRON, 3 + x * 3);
 	}
 }
@@ -182,20 +182,20 @@ void get_upreq_wrench(int level, UpgradeRequirement out[3]) {
 	}
 	else if(level == 2) {
 		out[0] = req(ORE, 40);
-		out[1] = req(METEOR, 10);
+		out[1] = req(METEOR, 8);
 	}
 	else if(level == 3) {
 		out[0] = req(ORE, 40);
-		out[1] = req(WOOD, 20);
-		out[2] = req(METEOR, 10);
+		out[1] = req(WOOD, 4);
+		out[2] = req(METEOR, 8);
 	}
 	else {
 		int x = level - 3;
 		int y = level - 8;
 		if(y < 0) y = 0;
-		out[0] = req(ORE, 40 + x * 5);
-		out[1] = req(WOOD, 20 + x * 10);
-		out[2] = req(METEOR, 10 + x * (1 + y));
+		out[0] = req(ORE, 40 + x * 2);
+		out[1] = req(WOOD, 4 + x * 4);
+		out[2] = req(METEOR, 8 + x * (1 + y));
 	}
 }
 
@@ -274,14 +274,16 @@ void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 
 	reset_upreq(arr);
 	get_upreq_engine(engine_level, arr);
-	if(draw_upgrade_reqs(self, 42, arr) && (engine_level < MAX_ENGINE)) {
-		if(draw_button(self, m, 60, 44)) {
-			if(mouse.left.just_released) {
-				spend_reqs(arr);
-				engine_level += 1;
-				if(engine_level > MAX_ENGINE) engine_level = MAX_ENGINE;
-				else {
-					sound_play(res.reaper.twee_snd);
+	if(engine_level < MAX_ENGINE) {
+		if(draw_upgrade_reqs(self, 42, arr)) {
+			if(draw_button(self, m, 60, 44)) {
+				if(mouse.left.just_released) {
+					spend_reqs(arr);
+					engine_level += 1;
+					if(engine_level > MAX_ENGINE) engine_level = MAX_ENGINE;
+					else {
+						sound_play(res.reaper.twee_snd);
+					}
 				}
 			}
 		}
@@ -289,14 +291,16 @@ void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 
 	reset_upreq(arr);
 	get_upreq_battery(battery_level, arr);
-	if(draw_upgrade_reqs(self, 42 - 31, arr) && (battery_level < MAX_BATTERY)) {
-		if(draw_button(self, m, 60, 44 - 31)) {
-			if(mouse.left.just_released) {
-				spend_reqs(arr);
-				battery_level += 1;
-				if(battery_level > MAX_BATTERY) battery_level = MAX_BATTERY;
-				else {
-					sound_play(res.reaper.twee_snd);
+	if(battery_level < MAX_BATTERY) {
+		if(draw_upgrade_reqs(self, 42 - 31, arr)) {
+			if(draw_button(self, m, 60, 44 - 31)) {
+				if(mouse.left.just_released) {
+					spend_reqs(arr);
+					battery_level += 1;
+					if(battery_level > MAX_BATTERY) battery_level = MAX_BATTERY;
+					else {
+						sound_play(res.reaper.twee_snd);
+					}
 				}
 			}
 		}
@@ -304,14 +308,16 @@ void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 
 	reset_upreq(arr);
 	get_upreq_solar(solar_level, arr);
-	if(draw_upgrade_reqs(self, 42 - 31 * 2, arr) && (solar_level < MAX_SOLAR)) {
-		if(draw_button(self, m, 60, 44 - 31 * 2)) {
-			if(mouse.left.just_released) {
-				spend_reqs(arr);
-				solar_level += 1;
-				if(solar_level > MAX_SOLAR) solar_level = MAX_SOLAR;
-				else {
-					sound_play(res.reaper.twee_snd);
+	if(solar_level < MAX_SOLAR) {
+		if(draw_upgrade_reqs(self, 42 - 31 * 2, arr)) {
+			if(draw_button(self, m, 60, 44 - 31 * 2)) {
+				if(mouse.left.just_released) {
+					spend_reqs(arr);
+					solar_level += 1;
+					if(solar_level > MAX_SOLAR) solar_level = MAX_SOLAR;
+					else {
+						sound_play(res.reaper.twee_snd);
+					}
 				}
 			}
 		}
@@ -319,14 +325,16 @@ void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 
 	reset_upreq(arr);
 	get_upreq_wrench(wrench_level, arr);
-	if(draw_upgrade_reqs(self, 42 - 31 * 3, arr) && (wrench_level < MAX_WRENCH)) {
-		if(draw_button(self, m, 60, 44 - 31 * 3)) {
-			if(mouse.left.just_released) {
-				spend_reqs(arr);
-				wrench_level += 1; 
-				if(wrench_level > MAX_WRENCH) wrench_level = MAX_WRENCH;
-				else {
-					sound_play(res.reaper.twee_snd);
+	if(wrench_level < MAX_WRENCH) {
+		if(draw_upgrade_reqs(self, 42 - 31 * 3, arr)) {
+			if(draw_button(self, m, 60, 44 - 31 * 3)) {
+				if(mouse.left.just_released) {
+					spend_reqs(arr);
+					wrench_level += 1; 
+					if(wrench_level > MAX_WRENCH) wrench_level = MAX_WRENCH;
+					else {
+						sound_play(res.reaper.twee_snd);
+					}
 				}
 			}
 		}

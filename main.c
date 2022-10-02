@@ -8,28 +8,30 @@
 
 #include "render/render_context.h"
 
+const char *game_title = "Far";
+
 bool on_planet;
 bool has_won = false;
 
-int engine_level = 20;
+int engine_level = 1;
 int battery_level = 1;
 int solar_level = 1;
 int wrench_level = 1;
-/*
+
 int ore_count = 0;
 int plant_count = 0;
 int wood_count = 0;
 int nebula_count = 0;
 int meteor_count = 0;
-int neutron_co unt = 0;
-*/
-int ore_count = 999;
+int neutron_count = 0;
+
+/*int ore_count = 999;
 int plant_count = 999;
 int wood_count = 999;
 int nebula_count = 999;
 int meteor_count = 999;
 int neutron_count = 999;
-
+*/
 
 int get_drop_count() {
 	if(wrench_level == 1) {
@@ -50,7 +52,7 @@ int ly_speed() {
 
 float get_battery_timer() {
 	float timers[] = { 3.0, 2.2, 1.4, 0.8, 0.4 };
-	return timers[battery_level - 1] * 0.01;
+	return timers[battery_level - 1];
 }
 
 Player *player;
@@ -85,6 +87,7 @@ void start_game() {
 	on_planet = false;
 
 	player = new(Player);
+	set_gpos(player, vxy(-224 + 6, 100 - 4));
 	reparent(player, root);
 
 	//reparent(new(Ship), root);
@@ -124,9 +127,10 @@ impl_begin {
 	ctx.screen.target_width = 360;
 	ctx.screen.target_height = 220;
 
-	//intro = new(Intro);
-	//reparent(intro, root);
-	start_game();
+	intro = new(Intro);
+	reparent(intro, root);
+	music_play_once(res.reaper.intro_snd);
+	//start_game();
 
 	fade = new(Fade);
 	reparent(fade, root);
@@ -153,6 +157,8 @@ impl_tick_start {
 				Core *core = new(Core);
 				set_gpos(core, CORE_CENTER);
 				reparent(core, root);
+
+				music_play_once(res.reaper.victory_snd);
 			}
 			has_won = true;
 		}
