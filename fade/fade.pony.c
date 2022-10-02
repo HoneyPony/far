@@ -21,6 +21,8 @@ void fire_to_planet() {
 	set_gpos(player, vxy(0, 0));
 	on_planet = true;
 	hud->battery_charges = 0;
+
+	music_play(res.reaper.planet_snd);
 }
 
 void fire_to_ship() {
@@ -32,6 +34,7 @@ void fire_to_ship() {
 	on_planet = false;
 	reparent(ship, root);
 	
+	music_play(res.reaper.ship_snd);
 }
 
 // void construct_Fade(Fade *self) { }

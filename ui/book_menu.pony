@@ -1,5 +1,6 @@
 @type BookMenu : Node
 	int current_page;
+	bool was_open;
 
 @construct
 @tick

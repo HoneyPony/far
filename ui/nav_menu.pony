@@ -1,5 +1,6 @@
 @type NavMenu : Node
 	int current_option;
+	bool was_open;
 
 @construct
 @tick

@@ -152,6 +152,14 @@ void tick_NavMenu(NavMenu *self, NavMenuTree *tree) {
 
 	tree->sprite->visible = self->visible;
 	tree->icon->visible = self->visible;
+	if(self->visible && !self->was_open) {
+		sound_play(res.reaper.open_panel_snd);
+	}
+	if(!self->visible && self->was_open) {
+		sound_play(res.reaper.close_panel_snd);
+	}
+
+	self->was_open = self->visible;
 	if(!self->visible) return;
 
 	vec2 m = mouse_screen();
@@ -168,6 +176,7 @@ void tick_NavMenu(NavMenu *self, NavMenuTree *tree) {
 	if(draw_button(self, m, OPT_X, OPT_Y, res.ui.button_nav_i_tex.loop.frames)) {
 		if(mouse.left.just_released) {
 			self->current_option = 0;
+			sound_play(res.reaper.dink_snd);
 		}
 	}
 
@@ -175,6 +184,7 @@ void tick_NavMenu(NavMenu *self, NavMenuTree *tree) {
 		if(draw_button(self, m, OPT_X, OPT_Y - 18, res.ui.button_nav_ii_tex.loop.frames)) {
 			if(mouse.left.just_released) {
 				self->current_option = 1;
+				sound_play(res.reaper.dink_snd);
 			}
 		}
 	}
@@ -183,6 +193,7 @@ void tick_NavMenu(NavMenu *self, NavMenuTree *tree) {
 		if(draw_button(self, m, OPT_X, OPT_Y - 18 * 2, res.ui.button_nav_iii_tex.loop.frames)) {
 			if(mouse.left.just_released) {
 				self->current_option = 2;
+				sound_play(res.reaper.dink_snd);
 			}
 		}
 	}

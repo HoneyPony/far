@@ -39,7 +39,7 @@ int ly_speed() {
 	int speeds[] = { 1, 3, 7, 15, 40, 90, 181, 375, 797,
 		2550, 4949, 17208, 65726, 122535, 244099, 450898, 998765, 2531329, 5023937, 10249308 };
 
-	return speeds[engine_level - 1] * 100;
+	return speeds[engine_level - 1];// * 100;
 }
 
 float get_battery_timer() {
@@ -97,6 +97,8 @@ void start_game() {
 	//reparent(new(Cursor), root)
 	// Initial planet options
 	generate_new_options();
+
+	music_play(res.reaper.ship_snd);
 }
 
 

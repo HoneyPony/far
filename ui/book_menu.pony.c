@@ -97,6 +97,14 @@ void tick_BookMenu(BookMenu *self, BookMenuTree *tree) {
 
 	tree->sprite->visible = self->visible;
 	tree->book->visible = self->visible;
+	if(self->visible && !self->was_open) {
+		sound_play(res.reaper.open_panel_snd);
+	}
+	if(!self->visible && self->was_open) {
+		sound_play(res.reaper.close_panel_snd);
+	}
+
+	self->was_open = self->visible;
 	if(!self->visible) return;
 
 	tree->book->texture = &res.ui.manual_tex.loop.frames[self->current_page].texture;
@@ -115,6 +123,9 @@ void tick_BookMenu(BookMenu *self, BookMenuTree *tree) {
 			if(self->current_page < 0) {
 				self->current_page = 0;
 			}
+			else {
+				sound_play(res.reaper.dink_snd);
+			}
 		}
 	}
 
@@ -123,6 +134,9 @@ void tick_BookMenu(BookMenu *self, BookMenuTree *tree) {
 			self->current_page += 1;
 			if(self->current_page >= LAST_INDEX) {
 				self->current_page = LAST_INDEX;
+			}
+			else {
+				sound_play(res.reaper.dink_snd);
 			}
 		}
 	}

@@ -275,7 +275,9 @@ void tick_Player(Player *self, PlayerTree *tree) {
 	}
 
 	//float actual_amount = 1;
-	collisions(get_gpos(self), &translation, &self->velocity);
+	if(!on_planet) {
+		collisions(get_gpos(self), &translation, &self->velocity);
+	}
 
 	//self->velocity = mul(self->velocity, actual_amount);
 	//ltranslate(self, mul(self->velocity, get_dt()));

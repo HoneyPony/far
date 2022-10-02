@@ -1,4 +1,5 @@
 @type UpgradeMenu : Node
+	bool was_open;
 
 @construct
 @tick

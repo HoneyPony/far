@@ -250,6 +250,15 @@ void tick_UpgradeMenu(UpgradeMenu *self, UpgradeMenuTree *tree) {
 	}
 
 	tree->sprite->visible = self->visible;
+
+	if(self->visible && !self->was_open) {
+		sound_play(res.reaper.open_panel_snd);
+	}
+	if(!self->visible && self->was_open) {
+		sound_play(res.reaper.close_panel_snd);
+	}
+
+	self->was_open = self->visible;
 	if(!self->visible) return;
 
 
