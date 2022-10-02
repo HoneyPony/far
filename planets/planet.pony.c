@@ -23,23 +23,48 @@ void construct_Planet(Planet *self) {
 		}
 	}
 
-	for(int i = 0; i < 50; ++i) {
-		Rock *rock = new(Rock);
-		vec2 pos;
-		pos.x = rand_range(-30, 30) * 16;
-		pos.y = rand_range(-30, 30) * 14;
-		set_lpos(rock, pos);
-		reparent(rock, self);
-	}
+	int item_count = 70;
 
-	for(int i = 0; i < 50; ++i) {
-		Plant *rock = new(Plant);
-		plant_texture(rock);
-		vec2 pos;
-		pos.x = rand_range(-30, 30) * 16;
-		pos.y = rand_range(-30, 30) * 14;
-		set_lpos(rock, pos);
-		reparent(rock, self);
+	for(int i = 0; i < item_count; ++i) {
+		int item_type = rand_range(0, 20);
+		if(item_type > 12) {
+			if(item_type > 18) {
+				item_type = 2;
+			}
+			else {
+				item_type = 1;
+			}
+		}
+		else {
+			item_type = 0;
+		}
+
+		if(item_type == 0) {
+			Rock *rock = new(Rock);
+			vec2 pos;
+			pos.x = rand_range(-24, 24) * 16;
+			pos.y = rand_range(-30, 30) * 14;
+			set_lpos(rock, pos);
+			reparent(rock, self);
+		}
+		else if(item_type == 1) {
+			Plant *rock = new(Plant);
+			plant_texture(rock);
+			vec2 pos;
+			pos.x = rand_range(-24, 24) * 16;
+			pos.y = rand_range(-30, 30) * 14;
+			set_lpos(rock, pos);
+			reparent(rock, self);
+		}
+		else {
+			Tree *rock = new(Tree);
+			tree_texture(rock);
+			vec2 pos;
+			pos.x = rand_range(-24, 24) * 16;
+			pos.y = rand_range(-30, 30) * 14;
+			set_lpos(rock, pos);
+			reparent(rock, self);
+		}
 	}
 }
 

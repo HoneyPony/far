@@ -3,20 +3,15 @@
 #include "../globals.h"
 
 // Automatically copied header lines. May not be useful.
-
-void construct_Plant(Plant *self) {
-	
+void tree_texture(Tree *plant) {
+	// No varieties yet...
 }
 
-void plant_texture(Plant *self) {
-	AnimHandle* list[] = {&res.planets.plant1_tex.loop, &res.planets.plant2_tex.loop, &res.planets.plant3_tex.loop};
+// void construct_Tree(Tree *self) { }
 
-	sprite_play(self->tree.sprite, list[rand_range(0, 2)]);
-}
+// void destruct_Tree(Tree *self) { }
 
-// void destruct_Plant(Plant *self) { }
-
-void tick_Plant(Plant *self, PlantTree *tree) {
+void tick_Tree(Tree *self, TreeTree *tree) {
 	tree->sprite->z_index = 700 - (int)get_gpos(self).y;
 
 	if(player->tool_anim > TOOL_ANIM_BREAK_POINT) {
@@ -25,7 +20,7 @@ void tick_Plant(Plant *self, PlantTree *tree) {
 			int drops = get_drop_count();
 			for(int i = 0; i < drops; ++i) {
 				ResDrop *drop = new(ResDrop);
-				res_drop_set_type(drop, 1);
+				res_drop_set_type(drop, WOOD);
 				
 				vec2 pos = get_gpos(self);
 				pos.x += randf_range(-6, 6);

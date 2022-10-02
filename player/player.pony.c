@@ -184,6 +184,9 @@ void tick_Player(Player *self, PlayerTree *tree) {
 		draw_cable(self, tree, stretch);
 	}
 
+	int z_index = 700 - (int)get_gpos(self).y;
+	tree->sprite->z_index = z_index;
+	tree->tail->z_index = z_index;
 
 	// Save state
 	// self->unrounded_pos = get_gpos(self);

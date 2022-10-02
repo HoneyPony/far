@@ -15,6 +15,16 @@ int nebula_count = 0;
 int meteor_count = 0;
 int neutron_count = 0;
 
+int get_drop_count() {
+	if(wrench_level == 1) {
+		return 1;
+	}
+
+	int a = rand_range(1, wrench_level + 1);
+	int b = rand_range(1, wrench_level + 1);
+	return a < b ? a : b;
+}
+
 Player *player;
 UpgradeMenu *upgrade_menu;
 

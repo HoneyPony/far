@@ -30,8 +30,9 @@ void tick_PlayerRing(PlayerRing *self, PlayerRingTree *tree) {
 	
 	//self->y -= 30 * get_dt();
 	ltranslate(self, vxy(0, -15 * get_dt()));
+	
 
-
+	tree->sprite->z_index = 700 - (int)get_gpos(self).y;
 	//vec2 pos = get_gpos(self);
 	//vec2 ppos = add(get_gpos(player), vxy(0, 12 + self->y));
 	//pos.y += (ppos.y - pos.y) * 0.5 * t;

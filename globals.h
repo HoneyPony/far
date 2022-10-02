@@ -22,6 +22,8 @@ extern int battery_level;
 extern int solar_level;
 extern int wrench_level;
 
+extern int get_drop_count();
+
 extern int ore_count;
 extern int plant_count;
 extern int wood_count;
